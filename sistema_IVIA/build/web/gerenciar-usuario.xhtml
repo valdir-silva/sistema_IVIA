@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml"
+             xmlns:p="http://primefaces.org/ui">
+
+
+    <h:form>
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+        <p:fieldset legend="Gerenciar Usuário">
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="Novo" action="#{usuarioBean.novo()}" update="@form"></p:commandButton>
+                    <p:commandButton value="Salvar" action="#{usuarioBean.salvar()}" disabled="#{usuarioBean.busca == true}" update="@form"></p:commandButton>
+                    <p:commandButton value="Buscar" action="#{usuarioBean.buscar()}" update="@form"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+            <p:panelGrid columns="2">
+            <p:panelGrid columns="2" rendered="#{usuarioBean.busca == false}">
+                <h:outputLabel value="Nome"></h:outputLabel>
+                <p:inputText value="#{usuarioBean.entidade.nome}"></p:inputText>
+                <h:outputLabel value="Email"></h:outputLabel>
+                <p:inputText value="#{usuarioBean.entidade.email}"></p:inputText>
+                <h:outputLabel value="Senha"></h:outputLabel>
+                <p:password value="#{usuarioBean.entidade.senha}"></p:password>
+            </p:panelGrid>
+            </p:panelGrid>
+            
+            <p:dataTable value="#{usuarioBean.entidades}" var="u" rendered="#{usuarioBean.busca == true}">
+                <p:column>
+                    <p:commandButton value="Editar" action="#{usuarioBean.editar(u)}" update="@form"></p:commandButton>
+                    <p:commandButton value="Deletar" action="#{usuarioBean.deletar(u)}" update="@form"></p:commandButton>
+                </p:column>
+                <p:column headerText="Nome">
+                    #{u.nome}
+                </p:column>
+                <p:column headerText="Email">
+                    #{u.email}
+                </p:column>
+                <p:column headerText="Senha">
+                    #{u.senha}
+                </p:column>
+            </p:dataTable>
+        </p:fieldset>
+    </h:form>
+
+</ui:decorate>
+
